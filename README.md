@@ -1,62 +1,73 @@
-# @elvatis/openclaw-homeassistant
+# @elvatis_com/openclaw-homeassistant
 
-OpenClaw plugin for Home Assistant integration. Control smart home devices, query sensor states, and trigger automations directly through your AI assistant.
+OpenClaw plugin for Home Assistant integration. Control devices, read sensors, and trigger automations through natural language.
 
-## What it does
+## Features
 
-Bridges OpenClaw with a local Home Assistant instance via the REST API and WebSocket. Exposes HA entities as agent tools - the AI can read sensor values, control lights/switches/covers, and trigger automations in natural language.
-
-## Use cases
-
-- "Turn off all lights in the living room"
-- "What's the current temperature in the bedroom?"
-- "Is the front door locked?"
-- "Trigger the 'Good morning' automation"
-- "Set the thermostat to 21 degrees"
-
-## Architecture
-
-```
-OpenClaw (agent)
-  └── @elvatis/openclaw-homeassistant plugin
-        └── REST/WebSocket → Home Assistant
-              ├── GET /api/states (entity states)
-              ├── POST /api/services (call services)
-              └── WS /api/websocket (events/subscriptions)
-```
+- **Entity Control** - Turn on/off lights, switches, covers, and more
+- **Sensor Reading** - Get temperature, humidity, power consumption, any sensor state
+- **Automation Triggers** - Fire Home Assistant automations and scripts
+- **Scene Activation** - Activate predefined scenes
+- **Entity Discovery** - List and search entities by domain, area, or name
+- **Read-Only Mode** - Optional safety mode that blocks state-changing actions
 
 ## Installation
 
 ```bash
-openclaw plugins install @elvatis/openclaw-homeassistant
+npm install @elvatis_com/openclaw-homeassistant
 ```
 
 ## Configuration
 
+Add to your `openclaw.json`:
+
 ```json
 {
   "plugins": {
-    "entries": {
-      "openclaw-homeassistant": {
-        "config": {
-          "url": "http://homeassistant.local:8123",
-          "token": "your-long-lived-access-token",
-          "allowedDomains": ["light", "switch", "climate", "cover", "sensor", "automation"],
-          "readOnly": false
-        }
-      }
+    "openclaw-homeassistant": {
+      "url": "http://homeassistant.local:8123",
+      "token": "your-long-lived-access-token",
+      "allowedDomains": ["light", "switch", "sensor", "automation", "scene"],
+      "readOnly": false
     }
   }
 }
 ```
 
-## Agent Tools registered
+### Getting a Long-Lived Access Token
 
-- `ha_get_state` - Get the current state of an entity
-- `ha_list_entities` - List entities by domain
-- `ha_call_service` - Call a Home Assistant service
-- `ha_trigger_automation` - Trigger an automation by name or entity_id
+1. Open Home Assistant UI
+2. Go to your Profile (bottom left)
+3. Scroll to "Long-Lived Access Tokens"
+4. Click "Create Token"
 
-## Status
+## Agent Tools
 
-Work in progress. See `.ai/handoff/STATUS.md` for current build state.
+| Tool | Description |
+|---|---|
+| `ha_list_entities` | List entities, optionally filtered by domain or area |
+| `ha_get_state` | Get current state and attributes of an entity |
+| `ha_call_service` | Call any HA service (e.g. `light.turn_on`, `switch.toggle`) |
+| `ha_trigger_automation` | Trigger an automation by entity_id |
+| `ha_activate_scene` | Activate a scene |
+| `ha_history` | Get state history for an entity over a time period |
+
+## Safety
+
+- **`readOnly: true`** blocks all state-changing operations (call_service, trigger, scene)
+- **`allowedDomains`** restricts which entity domains the agent can interact with
+- Destructive domains like `script` and `input_button` are excluded by default
+
+## Development
+
+```bash
+git clone https://github.com/homeofe/openclaw-homeassistant
+cd openclaw-homeassistant
+npm install
+npm run build
+npm run test
+```
+
+## License
+
+MIT
