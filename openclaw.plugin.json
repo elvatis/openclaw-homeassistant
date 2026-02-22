@@ -1,0 +1,17 @@
+{
+  "id": "openclaw-homeassistant",
+  "name": "Home Assistant",
+  "description": "Control smart home devices, read sensors, and trigger automations via Home Assistant",
+  "version": "0.1.0",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "url": { "type": "string", "description": "Home Assistant base URL" },
+      "token": { "type": "string", "description": "Long-Lived Access Token" },
+      "allowedDomains": { "type": "array", "items": { "type": "string" } },
+      "readOnly": { "type": "boolean", "default": false }
+    },
+    "required": ["url", "token"]
+  }
+}
