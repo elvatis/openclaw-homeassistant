@@ -1,15 +1,15 @@
 # @elvatis_com/openclaw-homeassistant
 
-OpenClaw plugin for Home Assistant integration. Control devices, read sensors, and trigger automations through natural language.
+OpenClaw plugin to control and inspect Home Assistant via the REST API.
 
 ## Features
 
-- **Entity Control** - Turn on/off lights, switches, covers, and more
-- **Sensor Reading** - Get temperature, humidity, power consumption, any sensor state
-- **Automation Triggers** - Fire Home Assistant automations and scripts
-- **Scene Activation** - Activate predefined scenes
-- **Entity Discovery** - List and search entities by domain, area, or name
-- **Read-Only Mode** - Optional safety mode that blocks state-changing actions
+- 34 dedicated Home Assistant tools (status, entities, lights, switches, climate, media, covers, scenes/scripts, history, generic service/event/template, notifications)
+- Native HA REST client using built-in `fetch` (zero runtime dependencies)
+- Safety guards:
+  - `readOnly` blocks all write/service actions
+  - `allowedDomains` restricts domain access
+  - strict `entity_id` validation (`{domain}.{object_id}`)
 
 ## Installation
 
@@ -19,53 +19,76 @@ npm install @elvatis_com/openclaw-homeassistant
 
 ## Configuration
 
-Add to your `openclaw.json`:
-
 ```json
 {
   "plugins": {
     "openclaw-homeassistant": {
       "url": "http://homeassistant.local:8123",
-      "token": "your-long-lived-access-token",
-      "allowedDomains": ["light", "switch", "sensor", "automation", "scene"],
+      "token": "YOUR_LONG_LIVED_ACCESS_TOKEN",
+      "allowedDomains": ["light", "switch", "sensor", "climate", "media_player"],
       "readOnly": false
     }
   }
 }
 ```
 
-### Getting a Long-Lived Access Token
+- `url` (required): Home Assistant base URL
+- `token` (required): Home Assistant Long-Lived Access Token
+- `allowedDomains` (optional): restricts domains (if set)
+- `readOnly` (optional): default `false`; when `true`, blocks write tools
 
-1. Open Home Assistant UI
-2. Go to your Profile (bottom left)
-3. Scroll to "Long-Lived Access Tokens"
-4. Click "Create Token"
+## Tool Reference
 
-## Agent Tools
-
-| Tool | Description |
+| Tool | Purpose |
 |---|---|
-| `ha_list_entities` | List entities, optionally filtered by domain or area |
-| `ha_get_state` | Get current state and attributes of an entity |
-| `ha_call_service` | Call any HA service (e.g. `light.turn_on`, `switch.toggle`) |
-| `ha_trigger_automation` | Trigger an automation by entity_id |
-| `ha_activate_scene` | Activate a scene |
-| `ha_history` | Get state history for an entity over a time period |
+| `ha_status` | Get Home Assistant config/status |
+| `ha_list_entities` | List entities (filter by domain/area/state) |
+| `ha_get_state` | Get state of one entity |
+| `ha_search_entities` | Search entities by pattern (friendly name/entity_id) |
+| `ha_list_services` | List available services |
+| `ha_light_on` | `light.turn_on` |
+| `ha_light_off` | `light.turn_off` |
+| `ha_light_toggle` | `light.toggle` |
+| `ha_light_list` | List `light.*` entities with color/brightness fields |
+| `ha_switch_on` | `switch.turn_on` |
+| `ha_switch_off` | `switch.turn_off` |
+| `ha_switch_toggle` | `switch.toggle` |
+| `ha_climate_set_temp` | `climate.set_temperature` |
+| `ha_climate_set_mode` | `climate.set_hvac_mode` |
+| `ha_climate_set_preset` | `climate.set_preset_mode` |
+| `ha_climate_list` | List `climate.*` entities |
+| `ha_media_play` | `media_player.media_play` |
+| `ha_media_pause` | `media_player.media_pause` |
+| `ha_media_stop` | `media_player.media_stop` |
+| `ha_media_volume` | `media_player.volume_set` |
+| `ha_media_play_media` | `media_player.play_media` |
+| `ha_cover_open` | `cover.open_cover` |
+| `ha_cover_close` | `cover.close_cover` |
+| `ha_cover_position` | `cover.set_cover_position` |
+| `ha_scene_activate` | `scene.turn_on` |
+| `ha_script_run` | `script.turn_on` |
+| `ha_automation_trigger` | `automation.trigger` |
+| `ha_sensor_list` | List `sensor.*` entities |
+| `ha_history` | Get history (`/api/history/period/...`) |
+| `ha_logbook` | Get logbook entries (`/api/logbook/...`) |
+| `ha_call_service` | Generic service call |
+| `ha_fire_event` | Fire custom Home Assistant event |
+| `ha_render_template` | Render Jinja2 template |
+| `ha_notify` | Send `notify/{target}` notification |
 
-## Safety
+## Safety Model
 
-- **`readOnly: true`** blocks all state-changing operations (call_service, trigger, scene)
-- **`allowedDomains`** restricts which entity domains the agent can interact with
-- Destructive domains like `script` and `input_button` are excluded by default
+- Read tools remain available in `readOnly` mode.
+- Write tools are blocked when `readOnly=true`.
+- Domain checks apply to entity tools and generic service calls.
+- Invalid entity IDs are rejected early.
 
 ## Development
 
 ```bash
-git clone https://github.com/homeofe/openclaw-homeassistant
-cd openclaw-homeassistant
 npm install
-npm run build
-npm run test
+npx tsc
+npx jest
 ```
 
 ## License

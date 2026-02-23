@@ -28,3 +28,8 @@ __pycache__/
 # OS
 .DS_Store
 Thumbs.db
+
+# Security
+*.key
+*.pem
+*.cert
