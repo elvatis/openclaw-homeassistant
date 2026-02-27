@@ -1,0 +1,136 @@
+{
+  "last_session": {
+    "agent": "human",
+    "phase": "planning",
+    "duration_minutes": 0,
+    "timestamp": "2026-02-28T00:00:00Z",
+    "session_id": "scaffold-init",
+    "commit": ""
+  },
+  "tasks": {
+    "T-008": {
+      "created": "2026-02-28T00:00:00Z",
+      "status": "ready",
+      "depends_on": [
+        "T-006"
+      ],
+      "title": "Implement ha_list_entities tool (filter by domain)",
+      "priority": "high"
+    },
+    "T-005": {
+      "created": "2026-02-28T00:00:00Z",
+      "status": "ready",
+      "depends_on": [
+        "T-004"
+      ],
+      "title": "Create package.json + tsconfig.json + openclaw.plugin.json",
+      "priority": "high"
+    },
+    "T-006": {
+      "created": "2026-02-28T00:00:00Z",
+      "status": "ready",
+      "depends_on": [
+        "T-005"
+      ],
+      "title": "Implement HA REST client (fetch wrapper with LLAT auth)",
+      "priority": "high"
+    },
+    "T-002": {
+      "created": "2026-02-28T00:00:00Z",
+      "status": "ready",
+      "depends_on": [],
+      "title": "Research: home-assistant-js-websocket npm package",
+      "priority": "high"
+    },
+    "T-003": {
+      "created": "2026-02-28T00:00:00Z",
+      "status": "ready",
+      "depends_on": [],
+      "title": "Research: existing HA + AI assistant integrations (gaps to fill)",
+      "priority": "high"
+    },
+    "T-012": {
+      "created": "2026-02-28T00:00:00Z",
+      "status": "ready",
+      "depends_on": [
+        "T-011"
+      ],
+      "title": "Update README.md with final setup guide and publish npm @elvatis/openclaw-homeassistant",
+      "priority": "medium"
+    },
+    "T-004": {
+      "created": "2026-02-28T00:00:00Z",
+      "status": "ready",
+      "depends_on": [
+        "T-001",
+        "T-002",
+        "T-003"
+      ],
+      "title": "Architecture: Define config schema and agent tool signatures (decide REST vs WebSocket)",
+      "priority": "high"
+    },
+    "T-011": {
+      "created": "2026-02-28T00:00:00Z",
+      "status": "ready",
+      "depends_on": [
+        "T-007",
+        "T-008",
+        "T-009",
+        "T-010"
+      ],
+      "title": "Write tests (mock HA API) for all tools",
+      "priority": "high"
+    },
+    "T-001": {
+      "created": "2026-02-28T00:00:00Z",
+      "status": "ready",
+      "depends_on": [],
+      "title": "Research: Home Assistant REST API + WebSocket API docs",
+      "priority": "high"
+    },
+    "T-010": {
+      "created": "2026-02-28T00:00:00Z",
+      "status": "ready",
+      "depends_on": [
+        "T-006"
+      ],
+      "title": "Implement ha_trigger_automation tool",
+      "priority": "high"
+    },
+    "T-007": {
+      "created": "2026-02-28T00:00:00Z",
+      "status": "ready",
+      "depends_on": [
+        "T-006"
+      ],
+      "title": "Implement ha_get_state tool",
+      "priority": "high"
+    },
+    "T-009": {
+      "created": "2026-02-28T00:00:00Z",
+      "status": "ready",
+      "depends_on": [
+        "T-006"
+      ],
+      "title": "Implement ha_call_service tool (with readOnly guard)",
+      "priority": "high"
+    }
+  },
+  "next_task_id": 13,
+  "aahp_version": "3.0",
+  "token_budget": {
+    "manifest_only": 100,
+    "full_read": 1500,
+    "manifest_plus_core": 450
+  },
+  "project": "openclaw-homeassistant",
+  "quick_context": "openclaw-homeassistant scaffold only. Full P1-P4 development pipeline pending. Tools: ha_get_state, ha_list_entities, ha_call_service, ha_trigger_automation.",
+  "files": {
+    "NEXT_ACTIONS.md": {
+      "summary": "Full P1-P4 pipeline: research, architecture, implementation, docs+publish.",
+      "updated": "2026-02-28T00:00:00Z",
+      "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "lines": 30
+    }
+  }
+}
