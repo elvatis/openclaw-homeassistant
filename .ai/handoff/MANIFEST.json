@@ -5,7 +5,7 @@
     "duration_minutes": 5,
     "timestamp": "2026-02-27T14:00:00.000Z",
     "session_id": "t006-ha-rest-client",
-    "commit": ""
+    "commit": "7cbeccd"
   },
   "tasks": {
     "T-008": {
