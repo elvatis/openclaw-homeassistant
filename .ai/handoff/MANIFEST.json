@@ -1,11 +1,11 @@
 {
   "last_session": {
     "agent": "claude-code",
-    "phase": "implementation",
+    "phase": "research",
     "duration_minutes": 5,
-    "timestamp": "2026-02-27T14:00:00.000Z",
-    "session_id": "t006-ha-rest-client",
-    "commit": "7cbeccd"
+    "timestamp": "2026-02-27T15:30:00.000Z",
+    "session_id": "t002-ws-research",
+    "commit": "pending"
   },
   "tasks": {
     "T-008": {
@@ -36,14 +36,16 @@
       ],
       "title": "Implement HA REST client (fetch wrapper with LLAT auth)",
       "priority": "high",
-      "completed": "2026-02-27T14:00:00.000Z"
+      "completed": "2026-02-27T14:12:35.090Z"
     },
     "T-002": {
       "created": "2026-02-28T00:00:00Z",
-      "status": "ready",
+      "status": "done",
       "depends_on": [],
       "title": "Research: home-assistant-js-websocket npm package",
-      "priority": "high"
+      "priority": "high",
+      "completed": "2026-02-27T15:30:00.000Z",
+      "artifact": ".ai/handoff/research/T-002-home-assistant-js-websocket.md"
     },
     "T-003": {
       "created": "2026-02-28T00:00:00Z",
@@ -127,7 +129,7 @@
     "manifest_plus_core": 450
   },
   "project": "openclaw-homeassistant",
-  "quick_context": "T-006 done: HAClient enhanced with HAClientError typed error class (statusCode, body), AbortController timeout (30s default), checkConnection() method. 33 new client tests (auth headers, URL encoding, error codes, timeout abort, empty/non-JSON responses). Build clean, 57 tests passing. Full tool suite in src/tools.ts, REST client in src/client.ts, types in src/types.ts.",
+  "quick_context": "T-002 done: Researched home-assistant-js-websocket v9.6.0 (official HA WS client). Zero deps, Apache-2.0, ~180KB. Provides createConnection, subscribeEntities, callService, getStates, collections API. Node.js needs ws polyfill + createLongLivedTokenAuth. Recommendation: keep REST as primary (request-response pattern fits AI tools), WS optional future enhancement behind HAClientLike interface. Full analysis in .ai/handoff/research/T-002-home-assistant-js-websocket.md.",
   "files": {
     "NEXT_ACTIONS.md": {
       "summary": "Full P1-P4 pipeline: research, architecture, implementation, docs+publish.",

@@ -2,7 +2,7 @@
 
 ## P1 - Research (Sonar)
 - [ ] Research: Home Assistant REST API + WebSocket API docs
-- [ ] Research: home-assistant-js-websocket npm package (official HA WS client)
+- [x] Research: home-assistant-js-websocket npm package (official HA WS client) - see `.ai/handoff/research/T-002-home-assistant-js-websocket.md`
 - [ ] Research: existing HA + AI assistant integrations (gaps to fill)
 - [ ] Research: OpenClaw plugin agent tool best practices
 
