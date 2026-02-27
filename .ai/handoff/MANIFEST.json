@@ -5,7 +5,7 @@
     "duration_minutes": 5,
     "timestamp": "2026-02-27T16:30:00.000Z",
     "session_id": "t011-comprehensive-tool-tests",
-    "commit": "pending"
+    "commit": "3aa1ca2"
   },
   "tasks": {
     "T-008": {
