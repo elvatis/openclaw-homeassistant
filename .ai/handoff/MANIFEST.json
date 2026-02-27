@@ -3,9 +3,9 @@
     "agent": "claude-code",
     "phase": "research",
     "duration_minutes": 5,
-    "timestamp": "2026-02-27T15:30:00.000Z",
-    "session_id": "t002-ws-research",
-    "commit": "84e9a1d"
+    "timestamp": "2026-02-27T15:00:00.000Z",
+    "session_id": "t003-ha-ai-landscape",
+    "commit": "pending"
   },
   "tasks": {
     "T-008": {
@@ -44,15 +44,15 @@
       "depends_on": [],
       "title": "Research: home-assistant-js-websocket npm package",
       "priority": "high",
-      "completed": "2026-02-27T15:30:00.000Z",
-      "artifact": ".ai/handoff/research/T-002-home-assistant-js-websocket.md"
+      "completed": "2026-02-27T14:24:35.540Z"
     },
     "T-003": {
       "created": "2026-02-28T00:00:00Z",
-      "status": "ready",
+      "status": "done",
       "depends_on": [],
       "title": "Research: existing HA + AI assistant integrations (gaps to fill)",
-      "priority": "high"
+      "priority": "high",
+      "completed": "2026-02-27T15:00:00.000Z"
     },
     "T-012": {
       "created": "2026-02-28T00:00:00Z",
@@ -129,7 +129,7 @@
     "manifest_plus_core": 450
   },
   "project": "openclaw-homeassistant",
-  "quick_context": "T-002 done: Researched home-assistant-js-websocket v9.6.0 (official HA WS client). Zero deps, Apache-2.0, ~180KB. Provides createConnection, subscribeEntities, callService, getStates, collections API. Node.js needs ws polyfill + createLongLivedTokenAuth. Recommendation: keep REST as primary (request-response pattern fits AI tools), WS optional future enhancement behind HAClientLike interface. Full analysis in .ai/handoff/research/T-002-home-assistant-js-websocket.md.",
+  "quick_context": "T-003 done: Researched HA + AI landscape. Three categories: (1) HA-native agents (OpenAI/Claude/Gemini/Ollama conversation integrations) - limited to Assist API intents on exposed entities; (2) External MCP servers (tevonsb 547*, advanced 47*, hekmon8 47*) - generic bridges with 4-34 tools, no safety guards; (3) openclaw-homeassistant (us) - 34 typed tools, zero deps, readOnly + allowedDomains + strict entity validation. Our unique value: safety-first, granular, OpenClaw-native. No other bridge offers readOnly mode + domain allowlist. Future gaps to fill: camera snapshots, automation creation. Full analysis in .ai/handoff/research/T-003-existing-ha-ai-integrations.md.",
   "files": {
     "NEXT_ACTIONS.md": {
       "summary": "Full P1-P4 pipeline: research, architecture, implementation, docs+publish.",
