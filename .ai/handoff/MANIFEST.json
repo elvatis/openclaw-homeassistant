@@ -1,11 +1,11 @@
 {
   "last_session": {
     "agent": "claude-code",
-    "phase": "docs-publish",
-    "duration_minutes": 2,
-    "timestamp": "2026-02-27T14:51:45.023Z",
-    "session_id": "t012-readme-publish",
-    "commit": "9537e68"
+    "phase": "architecture",
+    "duration_minutes": 10,
+    "timestamp": "2026-02-27T16:00:00.000Z",
+    "session_id": "t004-architecture-decision",
+    "commit": "pending"
   },
   "tasks": {
     "T-008": {
@@ -66,14 +66,15 @@
     },
     "T-004": {
       "created": "2026-02-28T00:00:00Z",
-      "status": "ready",
+      "status": "done",
       "depends_on": [
         "T-001",
         "T-002",
         "T-003"
       ],
       "title": "Architecture: Define config schema and agent tool signatures (decide REST vs WebSocket)",
-      "priority": "high"
+      "priority": "high",
+      "completed": "2026-02-27T16:00:00.000Z"
     },
     "T-011": {
       "created": "2026-02-28T00:00:00Z",
@@ -130,7 +131,7 @@
     "manifest_plus_core": 450
   },
   "project": "openclaw-homeassistant",
-  "quick_context": "T-012 done: README rewritten with full setup guide (prerequisites, token creation, config, safety model, 34-tool reference, programmatic usage, architecture). npm pack dry-run verified (18.3 kB, 25 files). Actual npm publish pending - requires npm login. Package: @elvatis/openclaw-homeassistant@0.1.0. All 57 tests pass, typecheck clean, build clean. Remaining open tasks: T-001 (REST API research), T-004 (architecture), T-007/T-009/T-010 (tool implementations), T-011 (tests).",
+  "quick_context": "T-004 done: Architecture formalized - REST chosen over WebSocket (zero deps, stateless, fits AI agent on-demand pattern). Config validation module (src/config.ts) with URL/token/domain/readOnly runtime checks. 34 tool input types exported (ToolInputMap, ToolName, 15 input interfaces). ADR written at .ai/handoff/research/T-004-architecture-decision.md. 85 tests pass (28 new config tests), typecheck clean, build clean. Remaining: T-001 (REST API research), T-007/T-009/T-010 (tool impls), T-011 (tests).",
   "files": {
     "NEXT_ACTIONS.md": {
       "summary": "Full P1-P4 pipeline: research, architecture, implementation, docs+publish.",

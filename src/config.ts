@@ -111,4 +111,4 @@ function validateReadOnly(value: unknown, errors: ConfigValidationError[]): bool
 }
 
 /** Known Home Assistant domains for reference. Not used for enforcement. */
-export const KNOWN_HA_DOMAINS: readonly string[] = HA_DOMAINS;
+export const KNOWN_HA_DOMAINS: readonly string[] = Object.freeze([...HA_DOMAINS]);
