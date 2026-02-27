@@ -1,11 +1,11 @@
 {
   "last_session": {
     "agent": "claude-code",
-    "phase": "architecture",
-    "duration_minutes": 2,
-    "timestamp": "2026-02-27T15:10:05.477Z",
-    "session_id": "t004-architecture-decision",
-    "commit": "85c4527"
+    "phase": "testing",
+    "duration_minutes": 5,
+    "timestamp": "2026-02-27T16:30:00.000Z",
+    "session_id": "t011-comprehensive-tool-tests",
+    "commit": "pending"
   },
   "tasks": {
     "T-008": {
@@ -78,7 +78,7 @@
     },
     "T-011": {
       "created": "2026-02-28T00:00:00Z",
-      "status": "ready",
+      "status": "done",
       "depends_on": [
         "T-007",
         "T-008",
@@ -86,7 +86,8 @@
         "T-010"
       ],
       "title": "Write tests (mock HA API) for all tools",
-      "priority": "high"
+      "priority": "high",
+      "completed": "2026-02-27T16:30:00.000Z"
     },
     "T-001": {
       "created": "2026-02-28T00:00:00Z",
@@ -131,7 +132,7 @@
     "manifest_plus_core": 450
   },
   "project": "openclaw-homeassistant",
-  "quick_context": "T-004 done: Architecture formalized - REST chosen over WebSocket (zero deps, stateless, fits AI agent on-demand pattern). Config validation module (src/config.ts) with URL/token/domain/readOnly runtime checks. 34 tool input types exported (ToolInputMap, ToolName, 15 input interfaces). ADR written at .ai/handoff/research/T-004-architecture-decision.md. 85 tests pass (28 new config tests), typecheck clean, build clean. Remaining: T-001 (REST API research), T-007/T-009/T-010 (tool impls), T-011 (tests).",
+  "quick_context": "T-011 done: Comprehensive test suite for all 34 tools. 232 tests pass (tools: 169 tests covering all tools with mocked HA client - happy paths, readOnly guards, domain guards, input validation, boundary checks; client: 33 tests; config: 28 tests; guards: 2 extra). Typecheck clean, build clean. Remaining: T-001 (REST API research), T-007/T-009/T-010 (tool impls already in code, tasks not formally closed).",
   "files": {
     "NEXT_ACTIONS.md": {
       "summary": "Full P1-P4 pipeline: research, architecture, implementation, docs+publish.",
