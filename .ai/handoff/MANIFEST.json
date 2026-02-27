@@ -5,7 +5,7 @@
     "duration_minutes": 5,
     "timestamp": "2026-02-27T16:00:00.000Z",
     "session_id": "t001-ha-api-research",
-    "commit": "pending"
+    "commit": "aa5a2f8"
   },
   "tasks": {
     "T-008": {
