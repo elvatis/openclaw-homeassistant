@@ -33,4 +33,3 @@ Thumbs.db
 *.key
 *.pem
 *.cert
-package-lock.json
