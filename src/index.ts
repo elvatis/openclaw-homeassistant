@@ -1,20 +1,8 @@
 import pluginManifest from "../openclaw.plugin.json";
 import { HAClient } from "./client";
+import { validateConfig } from "./config";
 import { createTools } from "./tools";
-import { OpenClawApi, PluginConfig } from "./types";
-
-function ensureConfig(config: Partial<PluginConfig>): PluginConfig {
-  if (!config.url || !config.token) {
-    throw new Error("Missing required config: url, token");
-  }
-
-  return {
-    url: config.url,
-    token: config.token,
-    allowedDomains: config.allowedDomains ?? [],
-    readOnly: config.readOnly ?? false
-  };
-}
+import { OpenClawApi } from "./types";
 
 const TOOL_NAMES = [
   "ha_status",
@@ -54,7 +42,7 @@ const TOOL_NAMES = [
 ] as const;
 
 export default function init(api: OpenClawApi): void {
-  const config = ensureConfig((api.config ?? {}) as Partial<PluginConfig>);
+  const config = validateConfig(api.config ?? {});
   const client = new HAClient(config);
   const tools = createTools({ client, config });
 
@@ -71,5 +59,35 @@ export default function init(api: OpenClawApi): void {
 export const manifest = pluginManifest;
 export { createTools } from "./tools";
 export { HAClient } from "./client";
+export { validateConfig } from "./config";
+export type { ConfigValidationError, HADomain } from "./config";
+export { KNOWN_HA_DOMAINS } from "./config";
 export { assertToolAllowed, assertDomainAllowed, assertEntityAllowed, parseEntityId } from "./guards";
 export { HAClientError } from "./types";
+export type {
+  PluginConfig,
+  ToolInputMap,
+  ToolName,
+  EmptyInput,
+  ListEntitiesInput,
+  GetStateInput,
+  SearchEntitiesInput,
+  LightOnInput,
+  EntityIdInput,
+  ClimateSetTempInput,
+  ClimateSetModeInput,
+  ClimateSetPresetInput,
+  MediaVolumeInput,
+  MediaPlayMediaInput,
+  CoverPositionInput,
+  ScriptRunInput,
+  AutomationTriggerInput,
+  HistoryInput,
+  CallServiceInput,
+  FireEventInput,
+  RenderTemplateInput,
+  NotifyInput,
+  HAEntityState,
+  HAClientLike,
+  HAServiceDomain
+} from "./types";

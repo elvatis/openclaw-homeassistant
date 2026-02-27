@@ -2,8 +2,8 @@
   "last_session": {
     "agent": "claude-code",
     "phase": "docs-publish",
-    "duration_minutes": 5,
-    "timestamp": "2026-02-27T14:50:00.000Z",
+    "duration_minutes": 2,
+    "timestamp": "2026-02-27T14:51:45.023Z",
     "session_id": "t012-readme-publish",
     "commit": "9537e68"
   },
@@ -62,8 +62,7 @@
       ],
       "title": "Update README.md with final setup guide and publish npm @elvatis/openclaw-homeassistant",
       "priority": "medium",
-      "completed": "2026-02-27T14:50:00.000Z",
-      "notes": "README rewritten with full setup guide, config reference, safety model docs, tool reference, programmatic usage, architecture overview. npm dry-run verified (18.3 kB, 25 files). Actual publish requires npm login (npm adduser)."
+      "completed": "2026-02-27T14:51:45.023Z"
     },
     "T-004": {
       "created": "2026-02-28T00:00:00Z",
