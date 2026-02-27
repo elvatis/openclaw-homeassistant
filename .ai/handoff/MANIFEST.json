@@ -1,11 +1,11 @@
 {
   "last_session": {
     "agent": "claude-code",
-    "phase": "testing",
+    "phase": "research",
     "duration_minutes": 5,
-    "timestamp": "2026-02-27T16:30:00.000Z",
-    "session_id": "t011-comprehensive-tool-tests",
-    "commit": "3aa1ca2"
+    "timestamp": "2026-02-27T16:00:00.000Z",
+    "session_id": "t001-ha-api-research",
+    "commit": "pending"
   },
   "tasks": {
     "T-008": {
@@ -87,14 +87,15 @@
       ],
       "title": "Write tests (mock HA API) for all tools",
       "priority": "high",
-      "completed": "2026-02-27T16:30:00.000Z"
+      "completed": "2026-02-27T15:22:34.606Z"
     },
     "T-001": {
       "created": "2026-02-28T00:00:00Z",
-      "status": "ready",
+      "status": "done",
       "depends_on": [],
       "title": "Research: Home Assistant REST API + WebSocket API docs",
-      "priority": "high"
+      "priority": "high",
+      "completed": "2026-02-27T16:00:00.000Z"
     },
     "T-010": {
       "created": "2026-02-28T00:00:00Z",
@@ -132,13 +133,18 @@
     "manifest_plus_core": 450
   },
   "project": "openclaw-homeassistant",
-  "quick_context": "T-011 done: Comprehensive test suite for all 34 tools. 232 tests pass (tools: 169 tests covering all tools with mocked HA client - happy paths, readOnly guards, domain guards, input validation, boundary checks; client: 33 tests; config: 28 tests; guards: 2 extra). Typecheck clean, build clean. Remaining: T-001 (REST API research), T-007/T-009/T-010 (tool impls already in code, tasks not formally closed).",
+  "quick_context": "T-001 done: Comprehensive HA API research covering REST (17 endpoints) and WebSocket (20+ message types). Documented all endpoints, auth methods (LLAT), response shapes. Verified client.ts correctness against official docs - no issues found. REST-only decision validated (agent tools are request/response, not streams). Identified potential improvements: ?return_response param, minimal_response for history, calendar tools. Research at .ai/research/T-001-ha-api-research.md. Remaining: T-007/T-009/T-010 (tool impls already in code, tasks not formally closed).",
   "files": {
     "NEXT_ACTIONS.md": {
       "summary": "Full P1-P4 pipeline: research, architecture, implementation, docs+publish.",
       "updated": "2026-02-28T00:00:00Z",
       "checksum": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
       "lines": 30
+    },
+    "T-001-ha-api-research.md": {
+      "summary": "HA REST API (17 endpoints) and WebSocket API (20+ message types) research. Auth methods, endpoint reference, implementation coverage analysis, correctness verification.",
+      "updated": "2026-02-27T16:00:00.000Z",
+      "lines": 230
     }
   }
 }
