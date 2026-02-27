@@ -5,7 +5,7 @@
     "duration_minutes": 10,
     "timestamp": "2026-02-27T16:00:00.000Z",
     "session_id": "t004-architecture-decision",
-    "commit": "pending"
+    "commit": "85c4527"
   },
   "tasks": {
     "T-008": {
