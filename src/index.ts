@@ -72,3 +72,4 @@ export const manifest = pluginManifest;
 export { createTools } from "./tools";
 export { HAClient } from "./client";
 export { assertToolAllowed, assertDomainAllowed, assertEntityAllowed, parseEntityId } from "./guards";
+export { HAClientError } from "./types";

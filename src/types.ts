@@ -69,4 +69,17 @@ export interface HAClientLike {
   getLogbook(startTimestamp: string, entityId?: string, endTimestamp?: string): Promise<unknown>;
   renderTemplate(template: string, variables?: JsonMap): Promise<unknown>;
   fireEvent(eventType: string, eventData?: JsonMap): Promise<unknown>;
+  checkConnection(): Promise<boolean>;
+}
+
+export class HAClientError extends Error {
+  public readonly statusCode: number;
+  public readonly body: string;
+
+  constructor(statusCode: number, body: string) {
+    super(`Home Assistant HTTP ${statusCode}: ${body}`);
+    this.name = "HAClientError";
+    this.statusCode = statusCode;
+    this.body = body;
+  }
 }

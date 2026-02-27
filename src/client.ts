@@ -1,10 +1,19 @@
-import { HAClientLike, HAEntityState, HAServiceDomain, HomeAssistantConfig, JsonMap, PluginConfig } from "./types";
+import { HAClientError, HAClientLike, HAEntityState, HAServiceDomain, HomeAssistantConfig, JsonMap, PluginConfig } from "./types";
+
+const DEFAULT_TIMEOUT_MS = 30_000;
 
 export class HAClient implements HAClientLike {
   private readonly baseUrl: string;
+  private readonly timeoutMs: number;
 
   public constructor(private readonly config: PluginConfig) {
     this.baseUrl = config.url.replace(/\/$/, "");
+    this.timeoutMs = DEFAULT_TIMEOUT_MS;
+  }
+
+  public async checkConnection(): Promise<boolean> {
+    await this.request<unknown>("GET", "/api/");
+    return true;
   }
 
   public async getConfig(): Promise<HomeAssistantConfig> {
@@ -62,18 +71,32 @@ export class HAClient implements HAClientLike {
   }
 
   private async request<T>(method: string, path: string, body?: unknown): Promise<T> {
-    const response = await fetch(`${this.baseUrl}${path}`, {
-      method,
-      headers: {
-        Authorization: `Bearer ${this.config.token}`,
-        "Content-Type": "application/json"
-      },
-      body: body === undefined ? undefined : JSON.stringify(body)
-    });
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), this.timeoutMs);
+
+    let response: Response;
+    try {
+      response = await fetch(`${this.baseUrl}${path}`, {
+        method,
+        headers: {
+          Authorization: `Bearer ${this.config.token}`,
+          "Content-Type": "application/json"
+        },
+        body: body === undefined ? undefined : JSON.stringify(body),
+        signal: controller.signal
+      });
+    } catch (err: unknown) {
+      if (err instanceof DOMException && err.name === "AbortError") {
+        throw new Error(`Home Assistant request timed out after ${this.timeoutMs}ms: ${method} ${path}`);
+      }
+      throw err;
+    } finally {
+      clearTimeout(timer);
+    }
 
     const raw = await response.text();
     if (!response.ok) {
-      throw new Error(`Home Assistant HTTP ${response.status}: ${raw}`);
+      throw new HAClientError(response.status, raw);
     }
 
     if (raw.length === 0) {
