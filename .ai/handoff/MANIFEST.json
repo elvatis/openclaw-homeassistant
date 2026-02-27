@@ -1,21 +1,22 @@
 {
   "last_session": {
-    "agent": "human",
-    "phase": "planning",
-    "duration_minutes": 0,
-    "timestamp": "2026-02-28T00:00:00Z",
-    "session_id": "scaffold-init",
+    "agent": "claude-opus-4-6",
+    "phase": "implementation",
+    "duration_minutes": 5,
+    "timestamp": "2026-02-27T23:00:00Z",
+    "session_id": "t008-ha-list-entities",
     "commit": ""
   },
   "tasks": {
     "T-008": {
       "created": "2026-02-28T00:00:00Z",
-      "status": "ready",
+      "status": "done",
       "depends_on": [
         "T-006"
       ],
       "title": "Implement ha_list_entities tool (filter by domain)",
-      "priority": "high"
+      "priority": "high",
+      "completed": "2026-02-27T23:00:00Z"
     },
     "T-005": {
       "created": "2026-02-28T00:00:00Z",
@@ -124,7 +125,7 @@
     "manifest_plus_core": 450
   },
   "project": "openclaw-homeassistant",
-  "quick_context": "openclaw-homeassistant scaffold only. Full P1-P4 development pipeline pending. Tools: ha_get_state, ha_list_entities, ha_call_service, ha_trigger_automation.",
+  "quick_context": "ha_list_entities verified and tested (T-008 done). Full tool suite already implemented in src/tools.ts. REST client in src/client.ts. 24 tests passing. Remaining tasks: mark other implemented tools as done, write additional tests, publish.",
   "files": {
     "NEXT_ACTIONS.md": {
       "summary": "Full P1-P4 pipeline: research, architecture, implementation, docs+publish.",

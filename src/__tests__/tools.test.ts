@@ -73,6 +73,73 @@ describe("tools", () => {
     const tools = createTools({ client, config: makeConfig() });
     const out = await tools.ha_list_entities({ domain: "light" });
     expect(out).toHaveLength(1);
+    expect(out[0].entity_id).toBe("light.kitchen");
+  });
+
+  test("ha_list_entities returns all when no filters given", async () => {
+    const client = makeClient({
+      getStates: jest.fn().mockResolvedValue([
+        { entity_id: "light.kitchen", state: "on", attributes: {} },
+        { entity_id: "switch.fan", state: "off", attributes: {} },
+        { entity_id: "sensor.temp", state: "22", attributes: {} }
+      ])
+    });
+    const tools = createTools({ client, config: makeConfig() });
+    const out = await tools.ha_list_entities();
+    expect(out).toHaveLength(3);
+  });
+
+  test("ha_list_entities filters by state", async () => {
+    const client = makeClient({
+      getStates: jest.fn().mockResolvedValue([
+        { entity_id: "light.kitchen", state: "on", attributes: {} },
+        { entity_id: "light.bedroom", state: "off", attributes: {} },
+        { entity_id: "switch.fan", state: "on", attributes: {} }
+      ])
+    });
+    const tools = createTools({ client, config: makeConfig() });
+    const out = await tools.ha_list_entities({ state: "on" });
+    expect(out).toHaveLength(2);
+    expect(out.map((e: any) => e.entity_id)).toEqual(["light.kitchen", "switch.fan"]);
+  });
+
+  test("ha_list_entities filters by area", async () => {
+    const client = makeClient({
+      getStates: jest.fn().mockResolvedValue([
+        { entity_id: "light.kitchen", state: "on", attributes: { area_id: "kitchen" } },
+        { entity_id: "light.bedroom", state: "on", attributes: { area_id: "bedroom" } },
+        { entity_id: "switch.fan", state: "on", attributes: {} }
+      ])
+    });
+    const tools = createTools({ client, config: makeConfig() });
+    const out = await tools.ha_list_entities({ area: "kitchen" });
+    expect(out).toHaveLength(1);
+    expect(out[0].entity_id).toBe("light.kitchen");
+  });
+
+  test("ha_list_entities respects allowedDomains config", async () => {
+    const client = makeClient({
+      getStates: jest.fn().mockResolvedValue([
+        { entity_id: "light.kitchen", state: "on", attributes: {} },
+        { entity_id: "switch.fan", state: "off", attributes: {} },
+        { entity_id: "sensor.temp", state: "22", attributes: {} }
+      ])
+    });
+    const tools = createTools({ client, config: makeConfig({ allowedDomains: ["light", "sensor"] }) });
+    const out = await tools.ha_list_entities();
+    expect(out).toHaveLength(2);
+    expect(out.map((e: any) => e.entity_id).sort()).toEqual(["light.kitchen", "sensor.temp"]);
+  });
+
+  test("ha_list_entities rejects domain not in allowedDomains", async () => {
+    const client = makeClient({
+      getStates: jest.fn().mockResolvedValue([
+        { entity_id: "light.kitchen", state: "on", attributes: {} },
+        { entity_id: "switch.fan", state: "off", attributes: {} }
+      ])
+    });
+    const tools = createTools({ client, config: makeConfig({ allowedDomains: ["light"] }) });
+    await expect(tools.ha_list_entities({ domain: "switch" })).rejects.toThrow("blocked");
   });
 
   test("ha_search_entities matches friendly_name", async () => {
