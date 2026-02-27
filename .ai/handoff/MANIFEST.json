@@ -1,11 +1,11 @@
 {
   "last_session": {
-    "agent": "claude-opus-4-6",
+    "agent": "claude-code",
     "phase": "implementation",
     "duration_minutes": 5,
-    "timestamp": "2026-02-27T23:00:00Z",
-    "session_id": "t008-ha-list-entities",
-    "commit": "3e539e6"
+    "timestamp": "2026-02-27T13:22:00.000Z",
+    "session_id": "t005-project-config-files",
+    "commit": "pending"
   },
   "tasks": {
     "T-008": {
@@ -16,16 +16,17 @@
       ],
       "title": "Implement ha_list_entities tool (filter by domain)",
       "priority": "high",
-      "completed": "2026-02-27T23:00:00Z"
+      "completed": "2026-02-27T13:13:39.019Z"
     },
     "T-005": {
       "created": "2026-02-28T00:00:00Z",
-      "status": "ready",
+      "status": "done",
       "depends_on": [
         "T-004"
       ],
       "title": "Create package.json + tsconfig.json + openclaw.plugin.json",
-      "priority": "high"
+      "priority": "high",
+      "completed": "2026-02-27T13:22:00.000Z"
     },
     "T-006": {
       "created": "2026-02-28T00:00:00Z",
@@ -125,7 +126,7 @@
     "manifest_plus_core": 450
   },
   "project": "openclaw-homeassistant",
-  "quick_context": "ha_list_entities verified and tested (T-008 done). Full tool suite already implemented in src/tools.ts. REST client in src/client.ts. 24 tests passing. Remaining tasks: mark other implemented tools as done, write additional tests, publish.",
+  "quick_context": "T-005 done: package.json polished (scoped @elvatis, prepublishOnly, engines >=18), tsconfig.json enhanced (declarationMap, forceConsistentCasingInFileNames), openclaw.plugin.json expanded with all 33 tool definitions + inputSchemas. Build clean, 24 tests passing. Full tool suite in src/tools.ts, REST client in src/client.ts.",
   "files": {
     "NEXT_ACTIONS.md": {
       "summary": "Full P1-P4 pipeline: research, architecture, implementation, docs+publish.",
