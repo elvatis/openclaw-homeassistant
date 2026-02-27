@@ -1,4 +1,4 @@
-# openclaw-homeassistant — Dashboard
+# openclaw-homeassistant - Dashboard
 
 > Phase: P0 (initialized)
 

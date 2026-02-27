@@ -1,6 +1,6 @@
-# openclaw-homeassistant — Log
+# openclaw-homeassistant - Log
 
-## 2026-02-22 — Project Initialized
+## 2026-02-22 - Project Initialized
 
 - Repo cloned from github.com/homeofe/openclaw-homeassistant
 - AAHP handoff structure created

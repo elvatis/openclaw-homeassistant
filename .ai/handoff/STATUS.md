@@ -1,13 +1,13 @@
-# openclaw-homeassistant — Status
+# openclaw-homeassistant - Status
 
 > Last updated: 2026-02-22 (initial setup)
-> Phase: P0 — Project initialized, not yet started
+> Phase: P0 - Project initialized, not yet started
 
 ## Project Overview
 
 **Package:** `@elvatis/openclaw-homeassistant`
 **Repo:** https://github.com/homeofe/openclaw-homeassistant
-**Purpose:** Bridge OpenClaw with Home Assistant — control devices, read sensors, trigger automations via AI.
+**Purpose:** Bridge OpenClaw with Home Assistant - control devices, read sensors, trigger automations via AI.
 
 ## Build Health
 

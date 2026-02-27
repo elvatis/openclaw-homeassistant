@@ -1,7 +1,7 @@
 {
   "name": "@elvatis_com/openclaw-homeassistant",
   "version": "0.1.0",
-  "description": "OpenClaw plugin — Home Assistant integration: control devices, read sensors, trigger automations",
+  "description": "OpenClaw plugin - Home Assistant integration: control devices, read sensors, trigger automations",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
