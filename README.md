@@ -1,4 +1,4 @@
-# @elvatis/openclaw-homeassistant
+# @elvatis_com/openclaw-homeassistant
 
 OpenClaw plugin for Home Assistant - control devices, read sensors, trigger automations via AI.
 
@@ -13,7 +13,7 @@ OpenClaw plugin for Home Assistant - control devices, read sensors, trigger auto
 ## Installation
 
 ```bash
-npm install @elvatis/openclaw-homeassistant
+npm install @elvatis_com/openclaw-homeassistant
 ```
 
 ## Quick Start
@@ -160,7 +160,7 @@ This plugin implements three layers of safety:
 The plugin can also be used as a library:
 
 ```typescript
-import { HAClient, createTools } from "@elvatis/openclaw-homeassistant";
+import { HAClient, createTools } from "@elvatis_com/openclaw-homeassistant";
 
 const config = {
   url: "http://homeassistant.local:8123",
