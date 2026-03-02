@@ -25,3 +25,8 @@
 - [ ] npm publish @elvatis/openclaw-homeassistant
 - [ ] Blog article: "Controlling Home Assistant with natural language via OpenClaw"
 - [ ] Submit to OpenClaw community plugins page (PR)
+
+## ⚠️ Version Sync Rule
+**ALWAYS keep `package.json` and `openclaw.plugin.json` versions in sync.**
+When bumping a version, update BOTH files. Mismatched versions cause plugin loading failures and npm/ClawHub publish inconsistencies.
+
