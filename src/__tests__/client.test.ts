@@ -1,5 +1,6 @@
 import { HAClient } from "../client";
 import { HAClientError, PluginConfig } from "../types";
+import { vi, type Mock } from 'vitest'
 
 function makeConfig(overrides: Partial<PluginConfig> = {}): PluginConfig {
   return {
@@ -11,9 +12,9 @@ function makeConfig(overrides: Partial<PluginConfig> = {}): PluginConfig {
   };
 }
 
-function mockFetchResponse(status: number, body: unknown, ok?: boolean): jest.Mock {
+function mockFetchResponse(status: number, body: unknown, ok?: boolean): Mock {
   const text = typeof body === "string" ? body : JSON.stringify(body);
-  return jest.fn().mockResolvedValue({
+  return vi.fn().mockResolvedValue({
     ok: ok ?? (status >= 200 && status < 300),
     status,
     text: () => Promise.resolve(text)
@@ -21,7 +22,7 @@ function mockFetchResponse(status: number, body: unknown, ok?: boolean): jest.Mo
 }
 
 beforeEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
 });
 
 describe("HAClient", () => {
@@ -260,7 +261,7 @@ describe("HAClient", () => {
 
       await client.getHistory("2026-02-27T00:00:00Z", "sensor.temp");
 
-      const url = (global.fetch as jest.Mock).mock.calls[0][0] as string;
+      const url = (global.fetch as Mock).mock.calls[0][0] as string;
       expect(url).toContain("filter_entity_id=sensor.temp");
     });
 
@@ -270,7 +271,7 @@ describe("HAClient", () => {
 
       await client.getHistory("2026-02-27T00:00:00Z", undefined, "2026-02-28T00:00:00Z");
 
-      const url = (global.fetch as jest.Mock).mock.calls[0][0] as string;
+      const url = (global.fetch as Mock).mock.calls[0][0] as string;
       expect(url).toContain("end_time=2026-02-28T00%3A00%3A00Z");
       expect(url).not.toContain("filter_entity_id");
     });
@@ -281,7 +282,7 @@ describe("HAClient", () => {
 
       await client.getHistory("2026-02-27T00:00:00Z", "sensor.temp", "2026-02-28T00:00:00Z");
 
-      const url = (global.fetch as jest.Mock).mock.calls[0][0] as string;
+      const url = (global.fetch as Mock).mock.calls[0][0] as string;
       expect(url).toContain("filter_entity_id=sensor.temp");
       expect(url).toContain("end_time=");
     });
@@ -306,7 +307,7 @@ describe("HAClient", () => {
 
       await client.getLogbook("2026-02-27T00:00:00Z", "light.kitchen");
 
-      const url = (global.fetch as jest.Mock).mock.calls[0][0] as string;
+      const url = (global.fetch as Mock).mock.calls[0][0] as string;
       expect(url).toContain("entity=light.kitchen");
     });
   });
@@ -412,7 +413,7 @@ describe("HAClient", () => {
 
     test("returns raw text when body is not valid JSON", async () => {
       const client = new HAClient(makeConfig());
-      global.fetch = jest.fn().mockResolvedValue({
+      global.fetch = vi.fn().mockResolvedValue({
         ok: true,
         status: 200,
         text: () => Promise.resolve("plain text result")
@@ -456,14 +457,14 @@ describe("HAClient", () => {
     test("throws descriptive error on abort", async () => {
       const client = new HAClient(makeConfig());
       const abortError = new DOMException("The operation was aborted.", "AbortError");
-      global.fetch = jest.fn().mockRejectedValue(abortError);
+      global.fetch = vi.fn().mockRejectedValue(abortError);
 
       await expect(client.getConfig()).rejects.toThrow("timed out");
     });
 
     test("re-throws non-abort fetch errors", async () => {
       const client = new HAClient(makeConfig());
-      global.fetch = jest.fn().mockRejectedValue(new TypeError("Failed to fetch"));
+      global.fetch = vi.fn().mockRejectedValue(new TypeError("Failed to fetch"));
 
       await expect(client.getConfig()).rejects.toThrow("Failed to fetch");
     });

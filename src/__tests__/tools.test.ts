@@ -1,6 +1,7 @@
 import { assertDomainAllowed, assertEntityAllowed, assertToolAllowed, parseEntityId } from "../guards";
 import { createTools } from "../tools";
 import { HAClientLike, HAEntityState, HAServiceDomain, PluginConfig } from "../types";
+import { vi, type Mocked } from 'vitest'
 
 function makeConfig(overrides: Partial<PluginConfig> = {}): PluginConfig {
   return {
@@ -12,20 +13,20 @@ function makeConfig(overrides: Partial<PluginConfig> = {}): PluginConfig {
   };
 }
 
-function makeClient(overrides: Partial<HAClientLike> = {}): jest.Mocked<HAClientLike> {
+function makeClient(overrides: Partial<HAClientLike> = {}): Mocked<HAClientLike> {
   return {
-    getConfig: jest.fn().mockResolvedValue({ version: "2026.2.0", location_name: "Home" }),
-    getStates: jest.fn().mockResolvedValue([]),
-    getState: jest.fn().mockResolvedValue({ entity_id: "light.kitchen", state: "on", attributes: {} }),
-    getServices: jest.fn().mockResolvedValue([]),
-    callService: jest.fn().mockResolvedValue({ ok: true }),
-    getHistory: jest.fn().mockResolvedValue([]),
-    getLogbook: jest.fn().mockResolvedValue([]),
-    renderTemplate: jest.fn().mockResolvedValue("ok"),
-    fireEvent: jest.fn().mockResolvedValue({ message: "Event fired." }),
-    checkConnection: jest.fn().mockResolvedValue(true),
+    getConfig: vi.fn().mockResolvedValue({ version: "2026.2.0", location_name: "Home" }),
+    getStates: vi.fn().mockResolvedValue([]),
+    getState: vi.fn().mockResolvedValue({ entity_id: "light.kitchen", state: "on", attributes: {} }),
+    getServices: vi.fn().mockResolvedValue([]),
+    callService: vi.fn().mockResolvedValue({ ok: true }),
+    getHistory: vi.fn().mockResolvedValue([]),
+    getLogbook: vi.fn().mockResolvedValue([]),
+    renderTemplate: vi.fn().mockResolvedValue("ok"),
+    fireEvent: vi.fn().mockResolvedValue({ message: "Event fired." }),
+    checkConnection: vi.fn().mockResolvedValue(true),
     ...overrides
-  } as jest.Mocked<HAClientLike>;
+  } as Mocked<HAClientLike>;
 }
 
 const SAMPLE_STATES: HAEntityState[] = [
@@ -135,14 +136,14 @@ describe("ha_status", () => {
 
 describe("ha_list_entities", () => {
   test("returns all entities when no filters given", async () => {
-    const client = makeClient({ getStates: jest.fn().mockResolvedValue(SAMPLE_STATES) });
+    const client = makeClient({ getStates: vi.fn().mockResolvedValue(SAMPLE_STATES) });
     const tools = createTools({ client, config: makeConfig() });
     const out = await tools.ha_list_entities();
     expect(out).toHaveLength(SAMPLE_STATES.length);
   });
 
   test("filters by domain", async () => {
-    const client = makeClient({ getStates: jest.fn().mockResolvedValue(SAMPLE_STATES) });
+    const client = makeClient({ getStates: vi.fn().mockResolvedValue(SAMPLE_STATES) });
     const tools = createTools({ client, config: makeConfig() });
     const out = await tools.ha_list_entities({ domain: "light" });
     expect(out).toHaveLength(2);
@@ -150,7 +151,7 @@ describe("ha_list_entities", () => {
   });
 
   test("filters by state", async () => {
-    const client = makeClient({ getStates: jest.fn().mockResolvedValue(SAMPLE_STATES) });
+    const client = makeClient({ getStates: vi.fn().mockResolvedValue(SAMPLE_STATES) });
     const tools = createTools({ client, config: makeConfig() });
     const out = await tools.ha_list_entities({ state: "on" });
     const onEntities = SAMPLE_STATES.filter(s => s.state === "on");
@@ -158,7 +159,7 @@ describe("ha_list_entities", () => {
   });
 
   test("filters by area", async () => {
-    const client = makeClient({ getStates: jest.fn().mockResolvedValue(SAMPLE_STATES) });
+    const client = makeClient({ getStates: vi.fn().mockResolvedValue(SAMPLE_STATES) });
     const tools = createTools({ client, config: makeConfig() });
     const out = await tools.ha_list_entities({ area: "entrance" });
     expect(out).toHaveLength(1);
@@ -166,14 +167,14 @@ describe("ha_list_entities", () => {
   });
 
   test("respects allowedDomains config", async () => {
-    const client = makeClient({ getStates: jest.fn().mockResolvedValue(SAMPLE_STATES) });
+    const client = makeClient({ getStates: vi.fn().mockResolvedValue(SAMPLE_STATES) });
     const tools = createTools({ client, config: makeConfig({ allowedDomains: ["light", "sensor"] }) });
     const out = await tools.ha_list_entities();
     expect(out.every((e: HAEntityState) => e.entity_id.startsWith("light.") || e.entity_id.startsWith("sensor."))).toBe(true);
   });
 
   test("rejects domain not in allowedDomains", async () => {
-    const client = makeClient({ getStates: jest.fn().mockResolvedValue(SAMPLE_STATES) });
+    const client = makeClient({ getStates: vi.fn().mockResolvedValue(SAMPLE_STATES) });
     const tools = createTools({ client, config: makeConfig({ allowedDomains: ["light"] }) });
     await expect(tools.ha_list_entities({ domain: "switch" })).rejects.toThrow("blocked");
   });
@@ -186,7 +187,7 @@ describe("ha_list_entities", () => {
 describe("ha_get_state", () => {
   test("returns entity state for valid entity_id", async () => {
     const entity = { entity_id: "light.kitchen", state: "on", attributes: { brightness: 255 } };
-    const client = makeClient({ getState: jest.fn().mockResolvedValue(entity) });
+    const client = makeClient({ getState: vi.fn().mockResolvedValue(entity) });
     const tools = createTools({ client, config: makeConfig() });
     const result = await tools.ha_get_state({ entity_id: "light.kitchen" });
     expect(client.getState).toHaveBeenCalledWith("light.kitchen");
@@ -218,7 +219,7 @@ describe("ha_get_state", () => {
 
 describe("ha_search_entities", () => {
   test("matches by entity_id substring", async () => {
-    const client = makeClient({ getStates: jest.fn().mockResolvedValue(SAMPLE_STATES) });
+    const client = makeClient({ getStates: vi.fn().mockResolvedValue(SAMPLE_STATES) });
     const tools = createTools({ client, config: makeConfig() });
     const out = await tools.ha_search_entities({ pattern: "kitchen" });
     expect(out).toHaveLength(1);
@@ -226,7 +227,7 @@ describe("ha_search_entities", () => {
   });
 
   test("matches by friendly_name", async () => {
-    const client = makeClient({ getStates: jest.fn().mockResolvedValue(SAMPLE_STATES) });
+    const client = makeClient({ getStates: vi.fn().mockResolvedValue(SAMPLE_STATES) });
     const tools = createTools({ client, config: makeConfig() });
     const out = await tools.ha_search_entities({ pattern: "Ceiling" });
     expect(out).toHaveLength(1);
@@ -234,7 +235,7 @@ describe("ha_search_entities", () => {
   });
 
   test("search is case-insensitive", async () => {
-    const client = makeClient({ getStates: jest.fn().mockResolvedValue(SAMPLE_STATES) });
+    const client = makeClient({ getStates: vi.fn().mockResolvedValue(SAMPLE_STATES) });
     const tools = createTools({ client, config: makeConfig() });
     const out = await tools.ha_search_entities({ pattern: "TEMPERATURE" });
     expect(out).toHaveLength(1);
@@ -242,7 +243,7 @@ describe("ha_search_entities", () => {
   });
 
   test("returns empty for no matches", async () => {
-    const client = makeClient({ getStates: jest.fn().mockResolvedValue(SAMPLE_STATES) });
+    const client = makeClient({ getStates: vi.fn().mockResolvedValue(SAMPLE_STATES) });
     const tools = createTools({ client, config: makeConfig() });
     const out = await tools.ha_search_entities({ pattern: "nonexistent_xyz" });
     expect(out).toHaveLength(0);
@@ -255,7 +256,7 @@ describe("ha_search_entities", () => {
   });
 
   test("respects allowedDomains", async () => {
-    const client = makeClient({ getStates: jest.fn().mockResolvedValue(SAMPLE_STATES) });
+    const client = makeClient({ getStates: vi.fn().mockResolvedValue(SAMPLE_STATES) });
     const tools = createTools({ client, config: makeConfig({ allowedDomains: ["sensor"] }) });
     const out = await tools.ha_search_entities({ pattern: "kitchen" });
     expect(out).toHaveLength(0);
@@ -268,14 +269,14 @@ describe("ha_search_entities", () => {
 
 describe("ha_list_services", () => {
   test("returns all services when no allowedDomains", async () => {
-    const client = makeClient({ getServices: jest.fn().mockResolvedValue(SAMPLE_SERVICES) });
+    const client = makeClient({ getServices: vi.fn().mockResolvedValue(SAMPLE_SERVICES) });
     const tools = createTools({ client, config: makeConfig() });
     const out = await tools.ha_list_services();
     expect(out).toEqual(SAMPLE_SERVICES);
   });
 
   test("filters services by allowedDomains", async () => {
-    const client = makeClient({ getServices: jest.fn().mockResolvedValue(SAMPLE_SERVICES) });
+    const client = makeClient({ getServices: vi.fn().mockResolvedValue(SAMPLE_SERVICES) });
     const tools = createTools({ client, config: makeConfig({ allowedDomains: ["light"] }) });
     const out = await tools.ha_list_services();
     expect(out).toHaveLength(1);
@@ -410,7 +411,7 @@ describe("ha_light_toggle", () => {
 
 describe("ha_light_list", () => {
   test("returns only light entities with selected attributes", async () => {
-    const client = makeClient({ getStates: jest.fn().mockResolvedValue(SAMPLE_STATES) });
+    const client = makeClient({ getStates: vi.fn().mockResolvedValue(SAMPLE_STATES) });
     const tools = createTools({ client, config: makeConfig() });
     const out = await tools.ha_light_list();
     expect(out).toHaveLength(2);
@@ -425,7 +426,7 @@ describe("ha_light_list", () => {
   });
 
   test("respects allowedDomains", async () => {
-    const client = makeClient({ getStates: jest.fn().mockResolvedValue(SAMPLE_STATES) });
+    const client = makeClient({ getStates: vi.fn().mockResolvedValue(SAMPLE_STATES) });
     const tools = createTools({ client, config: makeConfig({ allowedDomains: ["sensor"] }) });
     await expect(tools.ha_light_list()).rejects.toThrow("blocked");
   });
@@ -576,7 +577,7 @@ describe("ha_climate_set_preset", () => {
 
 describe("ha_climate_list", () => {
   test("returns only climate entities", async () => {
-    const client = makeClient({ getStates: jest.fn().mockResolvedValue(SAMPLE_STATES) });
+    const client = makeClient({ getStates: vi.fn().mockResolvedValue(SAMPLE_STATES) });
     const tools = createTools({ client, config: makeConfig() });
     const out = await tools.ha_climate_list();
     expect(out).toHaveLength(1);
@@ -584,7 +585,7 @@ describe("ha_climate_list", () => {
   });
 
   test("respects allowedDomains", async () => {
-    const client = makeClient({ getStates: jest.fn().mockResolvedValue(SAMPLE_STATES) });
+    const client = makeClient({ getStates: vi.fn().mockResolvedValue(SAMPLE_STATES) });
     const tools = createTools({ client, config: makeConfig({ allowedDomains: ["light"] }) });
     await expect(tools.ha_climate_list()).rejects.toThrow("blocked");
   });
@@ -956,7 +957,7 @@ describe("ha_automation_trigger", () => {
 
 describe("ha_sensor_list", () => {
   test("returns only sensor entities", async () => {
-    const client = makeClient({ getStates: jest.fn().mockResolvedValue(SAMPLE_STATES) });
+    const client = makeClient({ getStates: vi.fn().mockResolvedValue(SAMPLE_STATES) });
     const tools = createTools({ client, config: makeConfig() });
     const out = await tools.ha_sensor_list();
     expect(out).toHaveLength(2);
@@ -964,7 +965,7 @@ describe("ha_sensor_list", () => {
   });
 
   test("respects allowedDomains", async () => {
-    const client = makeClient({ getStates: jest.fn().mockResolvedValue(SAMPLE_STATES) });
+    const client = makeClient({ getStates: vi.fn().mockResolvedValue(SAMPLE_STATES) });
     const tools = createTools({ client, config: makeConfig({ allowedDomains: ["light"] }) });
     await expect(tools.ha_sensor_list()).rejects.toThrow("blocked");
   });
