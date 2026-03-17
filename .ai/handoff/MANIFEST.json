@@ -132,7 +132,7 @@
       "status": "ready",
       "priority": "high",
       "depends_on": [],
-      "created": "2026-03-07T06:58:39.326Z",
+      "created": "2026-03-08T08:04:23.523Z",
       "notes": "Automated CI triage created by Akido.\n\nRepository: elvatis/openclaw-homeassistant\nFailed run: 22493316183\nRun URL: https://github.com/elvatis/openclaw-homeassistant/actions/runs/22493316183\n\nSummary:\nnpm ci failed: missing package-lock.json\n\nRelevant log excerpts:\n- See the Actions run for full logs: https://github.com/elvatis/openclaw-homeassistant/actions/runs/22493316183\n\nSuggested next steps:\n- Reproduce locally: run the CI steps (install deps, tsc, lint, tests).\n- Apply the suggested fix fr",
       "github_issue": 1,
       "github_repo": "elvatis/openclaw-homeassistant"
