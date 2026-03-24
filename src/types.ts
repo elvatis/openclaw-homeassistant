@@ -53,10 +53,16 @@ export interface ToolDeps {
 
 export type JsonMap = Record<string, unknown>;
 
+export interface ToolDefinition {
+  name: string;
+  description: string;
+  parameters: Record<string, unknown>;
+  execute: (toolCallId: string, params: unknown) => Promise<unknown>;
+}
+
 export interface OpenClawApi {
-  config?: unknown;
-  registerTool?: (name: string, handler: (input: unknown) => Promise<unknown>) => void;
-  tool?: (name: string, handler: (input: unknown) => Promise<unknown>) => void;
+  pluginConfig?: unknown;
+  registerTool: (definition: ToolDefinition) => void;
 }
 
 export interface HAClientLike {

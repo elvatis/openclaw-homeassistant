@@ -42,17 +42,22 @@ const TOOL_NAMES = [
 ] as const;
 
 export default function init(api: OpenClawApi): void {
-  const config = validateConfig(api.config ?? {});
+  const config = validateConfig(api.pluginConfig ?? {});
   const client = new HAClient(config);
   const tools = createTools({ client, config });
-
-  const register = api.registerTool ?? api.tool;
-  if (!register) {
-    throw new Error("OpenClaw API does not expose registerTool/tool.");
-  }
+  const manifest = pluginManifest as { tools?: Array<{ name: string; description: string; inputSchema: Record<string, unknown> }> };
+  const toolDefs = manifest.tools ?? [];
 
   TOOL_NAMES.forEach((name) => {
-    register(name, async (input) => (tools as Record<string, (arg: unknown) => Promise<unknown>>)[name](input));
+    const def = toolDefs.find((t) => t.name === name);
+    api.registerTool({
+      name,
+      description: def?.description ?? name,
+      parameters: def?.inputSchema ?? { type: "object", properties: {} },
+      async execute(_toolCallId, params) {
+        return (tools as Record<string, (arg: unknown) => Promise<unknown>>)[name](params);
+      },
+    });
   });
 }
 

@@ -32,9 +32,14 @@ Add the plugin to your OpenClaw configuration:
 ```json
 {
   "plugins": {
-    "openclaw-homeassistant": {
-      "url": "http://homeassistant.local:8123",
-      "token": "YOUR_LONG_LIVED_ACCESS_TOKEN"
+    "entries": {
+      "openclaw-homeassistant": {
+        "enabled": true,
+        "config": {
+          "url": "http://homeassistant.local:8123",
+          "token": "YOUR_LONG_LIVED_ACCESS_TOKEN"
+        }
+      }
     }
   }
 }
@@ -47,11 +52,16 @@ Restrict which domains the AI can access and/or enable read-only mode:
 ```json
 {
   "plugins": {
-    "openclaw-homeassistant": {
-      "url": "http://homeassistant.local:8123",
-      "token": "YOUR_LONG_LIVED_ACCESS_TOKEN",
-      "allowedDomains": ["light", "switch", "sensor", "climate"],
-      "readOnly": true
+    "entries": {
+      "openclaw-homeassistant": {
+        "enabled": true,
+        "config": {
+          "url": "http://homeassistant.local:8123",
+          "token": "YOUR_LONG_LIVED_ACCESS_TOKEN",
+          "allowedDomains": ["light", "switch", "sensor", "climate"],
+          "readOnly": true
+        }
+      }
     }
   }
 }
