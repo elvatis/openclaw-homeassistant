@@ -59,7 +59,7 @@ function validateUrl(value: unknown, errors: ConfigValidationError[]): string | 
     return undefined;
   }
   const trimmed = value.trim().replace(/\/+$/, "");
-  if (!/^https?:\/\/.+/i.test(trimmed)) {
+  if (!/^https?:\/\/[^/]/i.test(trimmed)) {
     errors.push({ field: "url", message: "must be an http:// or https:// URL" });
     return undefined;
   }
