@@ -2,7 +2,7 @@
   "id": "openclaw-homeassistant",
   "name": "Home Assistant",
   "description": "Control smart home devices, read sensors, and trigger automations via Home Assistant",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "entry": "./dist/index.js",
   "configSchema": {
     "type": "object",
